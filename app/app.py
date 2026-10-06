@@ -496,23 +496,33 @@ def messages():
 
 if __name__ == "__main__":
 
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    port = int(os.environ.get("PORT", "5000"))
 
-    CERT_FILE = os.path.join(
-        BASE_DIR,
-        "certs",
-        "cert.pem"
-    )
+    if os.environ.get("RENDER"):
+        app.run(
+            host="0.0.0.0",
+            port=port,
+            debug=False
+        )
 
-    KEY_FILE = os.path.join(
-        BASE_DIR,
-        "certs",
-        "key.pem"
-    )
+    else:
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=True,
-        ssl_context=(CERT_FILE, KEY_FILE)
-    )
+        CERT_FILE = os.path.join(
+            BASE_DIR,
+            "certs",
+            "cert.pem"
+        )
+
+        KEY_FILE = os.path.join(
+            BASE_DIR,
+            "certs",
+            "key.pem"
+        )
+
+        app.run(
+            host="127.0.0.1",
+            port=port,
+            debug=True,
+            ssl_context=(CERT_FILE, KEY_FILE)
+        )
