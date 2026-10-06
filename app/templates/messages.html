@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureChat - Sent Messages</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            background: #0f172a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        .message-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding-bottom: 18px;
+            margin-bottom: 20px;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .receiver {
+            font-size: 17px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .time {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .ciphertext {
+            background: #0f172a;
+            color: #93c5fd;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            font-family: "Courier New", monospace;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            word-break: break-all;
+
+            max-height: 150px;
+
+            overflow-y: auto;
+
+            margin-bottom: 20px;
+        }
+
+        .security-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .security {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .badge {
+            padding: 7px 11px;
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .encrypted {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .verified {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .empty {
+            background: white;
+
+            padding: 65px 30px;
+
+            text-align: center;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 18px;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+        .info {
+            margin-top: 25px;
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            padding: 20px;
+
+            border-radius: 11px;
+
+            color: #1e40af;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        🔐 SecureChat
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('send_message') }}">
+            Send
+        </a>
+
+        <a href="{{ url_for('inbox') }}">
+            Inbox
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<div class="container">
+
+
+    <div class="heading">
+
+        <h1>
+            📤 Sent Messages
+        </h1>
+
+        <p>
+            Messages you have sent and their encrypted database representation.
+        </p>
+
+    </div>
+
+
+
+    {% if messages %}
+
+
+        {% for msg in messages %}
+
+
+        <div class="message-card">
+
+
+            <div class="message-top">
+
+                <div class="receiver">
+
+                    👤 To:
+                    {{ msg[2] }}
+
+                </div>
+
+
+                <div class="time">
+
+                    {{ msg[4] }}
+
+                </div>
+
+            </div>
+
+
+
+            <div class="label">
+
+                Encrypted Message Stored in Database
+
+            </div>
+
+
+            <div class="ciphertext">
+
+                {{ msg[3] }}
+
+            </div>
+
+
+
+            <div class="security-title">
+
+                Cryptographic Protection
+
+            </div>
+
+
+            <div class="security">
+
+                <span class="badge encrypted">
+                    🔒 AES-256-GCM
+                </span>
+
+                <span class="badge encrypted">
+                    🔑 RSA-2048
+                </span>
+
+                <span class="badge encrypted">
+                    🛡 HMAC-SHA256
+                </span>
+
+                <span class="badge verified">
+                    ✓ Encrypted Before Storage
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📭
+            </div>
+
+            <h2>
+                No Sent Messages
+            </h2>
+
+            <p>
+                Messages you send will appear here in encrypted form.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+
+    <div class="info">
+
+        🔐 <strong>What you are seeing:</strong>
+
+        The long hexadecimal value above is the encrypted
+        ciphertext stored in MySQL. The original plaintext
+        message is not stored in this table.
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

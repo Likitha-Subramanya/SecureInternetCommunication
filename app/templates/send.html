@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureChat - Send Message</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+            background: #0f172a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 17px;
+            padding: 35px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 29px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 23px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 9px;
+
+            background: #f8fafc;
+
+            font-size: 15px;
+        }
+
+        select:focus,
+        textarea:focus {
+            outline: none;
+
+            border-color: #2563eb;
+
+            background: white;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 160px;
+        }
+
+        .send-button {
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .send-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .security-panel {
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 11px;
+        }
+
+        .security-panel h3 {
+            color: #1e3a8a;
+            margin-bottom: 14px;
+            font-size: 16px;
+        }
+
+        .security-list {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+        }
+
+        .security-item {
+            color: #1e40af;
+            font-size: 13px;
+        }
+
+        .security-item span {
+            margin-right: 5px;
+        }
+
+        .info {
+            margin-top: 22px;
+
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border-radius: 9px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .security-list {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+
+    <div class="logo">
+        🔐 SecureChat
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('inbox') }}">
+            Inbox
+        </a>
+
+        <a href="{{ url_for('sent_messages') }}">
+            Sent
+        </a>
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </div>
+
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="card">
+
+
+        <div class="heading">
+
+            <h1>
+                🔒 Send Secure Message
+            </h1>
+
+            <p>
+                Send an encrypted message securely
+                to another registered user.
+            </p>
+
+        </div>
+
+
+
+        <form method="POST">
+
+            <!-- REPLAY PROTECTION REQUEST ID -->
+
+            <input
+                type="hidden"
+                name="request_id"
+                id="request_id"
+            >
+
+
+            <!-- RECEIVER -->
+
+            <div class="form-group">
+
+                <label for="receiver">
+                    Select Receiver
+                </label>
+
+                <select
+                    id="receiver"
+                    name="receiver"
+                    required
+                >
+
+                    <option value="">
+                        Select a recipient
+                    </option>
+
+
+                    {% for user in users %}
+
+                    <option value="{{ user[0] }}">
+
+                        {{ user[0] }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <!-- MESSAGE -->
+
+            <div class="form-group">
+
+                <label for="message">
+                    Message
+                </label>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Type your secure message here..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+
+            <!-- SEND -->
+
+            <button
+                type="submit"
+                class="send-button"
+            >
+
+                🔐 Encrypt & Send Securely
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- SECURITY -->
+
+        <div class="security-panel">
+
+            <h3>
+                🛡️ Security Operations
+            </h3>
+
+
+            <div class="security-list">
+
+
+                <div class="security-item">
+
+                    <span>✓</span>
+                    AES-256-GCM message encryption
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <span>✓</span>
+                    RSA-2048 AES key protection
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <span>✓</span>
+                    HMAC-SHA256 integrity verification
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <span>✓</span>
+                    Replay attack protection
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <div class="info">
+
+            🔐 Your message is encrypted before it is
+            stored by the server. A unique request ID
+            is generated for each message to help prevent
+            replay of an already processed request.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- REPLAY PROTECTION -->
+
+<script>
+
+    document.getElementById("request_id").value =
+        crypto.randomUUID();
+
+</script>
+
+
+</body>
+
+</html>

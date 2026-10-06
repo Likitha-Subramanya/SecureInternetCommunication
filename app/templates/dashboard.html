@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureChat - Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 45px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+        }
+
+
+        /* MAIN */
+
+        .container {
+            max-width: 1150px;
+            margin: 45px auto;
+            padding: 0 25px;
+        }
+
+
+        /* WELCOME */
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+
+        /* MAIN CARDS */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 7px 25px rgba(0,0,0,0.06);
+
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            width: 52px;
+            height: 52px;
+
+            background: #eff6ff;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .card p {
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+            margin-bottom: 18px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 10px 17px;
+
+            background: #2563eb;
+
+            color: white;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* SECURITY */
+
+        .security-panel {
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 7px 25px rgba(0,0,0,0.06);
+        }
+
+        .security-panel h2 {
+            margin-bottom: 20px;
+
+            color: #0f172a;
+        }
+
+        .security-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .security-item {
+            padding: 18px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+            border: 1px solid #e2e8f0;
+        }
+
+        .security-item strong {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #0f172a;
+        }
+
+        .verified {
+            color: #16a34a;
+
+            font-size: 13px;
+        }
+
+
+        /* ARCHITECTURE */
+
+        .architecture {
+
+            margin-top: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #f8fafc
+                );
+
+            border-radius: 15px;
+
+            padding: 28px;
+
+            border: 1px solid #dbeafe;
+        }
+
+        .architecture h2 {
+            margin-bottom: 20px;
+        }
+
+        .flow {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: white;
+
+            padding: 14px 20px;
+
+            border-radius: 9px;
+
+            border: 1px solid #bfdbfe;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .arrow {
+            color: #2563eb;
+
+            font-weight: bold;
+
+            font-size: 18px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 850px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .security-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🔐 SecureChat
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('send_message') }}">
+            Send
+        </a>
+
+        <a href="{{ url_for('inbox') }}">
+            Inbox
+        </a>
+
+        <a href="{{ url_for('sent_messages') }}">
+            Sent
+        </a>
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- MAIN CONTENT -->
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h1>
+            Welcome, {{ username }} 👋
+        </h1>
+
+        <p>
+            Your secure communication dashboard
+        </p>
+
+    </div>
+
+
+
+    <!-- ACTION CARDS -->
+
+    <div class="cards">
+
+
+        <!-- SEND -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                🔒
+            </div>
+
+            <h3>
+                Send Secure Message
+            </h3>
+
+            <p>
+                Send an encrypted message to
+                another registered user.
+            </p>
+
+            <a
+                href="{{ url_for('send_message') }}"
+                class="button"
+            >
+                Send Message
+            </a>
+
+        </div>
+
+
+
+        <!-- INBOX -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                📥
+            </div>
+
+            <h3>
+                Inbox
+            </h3>
+
+            <p>
+                View messages received from
+                other users and verify integrity.
+            </p>
+
+            <a
+                href="{{ url_for('inbox') }}"
+                class="button"
+            >
+                Open Inbox
+            </a>
+
+        </div>
+
+
+
+        <!-- SENT -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                📤
+            </div>
+
+            <h3>
+                Sent Messages
+            </h3>
+
+            <p>
+                View your previously sent
+                communication records.
+            </p>
+
+            <a
+                href="{{ url_for('sent_messages') }}"
+                class="button"
+            >
+                View Sent
+            </a>
+
+        </div>
+
+
+
+        <!-- SECURITY VERIFICATION -->
+
+        <div class="card">
+
+            <div class="card-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Security Verification
+            </h3>
+
+            <p>
+                View the cryptographic techniques and
+                secure message processing used by SecureChat.
+            </p>
+
+            <a
+                href="{{ url_for('security') }}"
+                class="button"
+            >
+                View Security
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- SECURITY STATUS -->
+
+    <div class="security-panel">
+
+        <h2>
+            🛡️ Security Status
+        </h2>
+
+        <div class="security-grid">
+
+
+            <div class="security-item">
+
+                <strong>
+                    AES-256-GCM
+                </strong>
+
+                <span class="verified">
+                    ✓ Message Encryption
+                </span>
+
+            </div>
+
+
+
+            <div class="security-item">
+
+                <strong>
+                    RSA-2048
+                </strong>
+
+                <span class="verified">
+                    ✓ Key Protection
+                </span>
+
+            </div>
+
+
+
+            <div class="security-item">
+
+                <strong>
+                    HMAC-SHA256
+                </strong>
+
+                <span class="verified">
+                    ✓ Integrity Verification
+                </span>
+
+            </div>
+
+
+
+            <div class="security-item">
+
+                <strong>
+                    Password Hashing
+                </strong>
+
+                <span class="verified">
+                    ✓ Authentication Security
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ARCHITECTURE -->
+
+    <div class="architecture">
+
+        <h2>
+            🔐 Secure Communication Architecture
+        </h2>
+
+        <div class="flow">
+
+            <div class="flow-box">
+                👤 Sender
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="flow-box">
+                🔒 AES-256-GCM
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="flow-box">
+                🔑 RSA-2048
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="flow-box">
+                🗄️ Secure Server
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="flow-box">
+                👤 Receiver
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Private cryptographic keys
+**/server_private_key.pem
+**/key.pem
+
+# Local TLS certificates
+**/cert.pem
+
+# Environment variables / secrets
+.env
+
+# IDE files
+.vscode/
+
+# Local database files
+*.db

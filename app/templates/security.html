@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureChat - Security</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .navbar {
+            height: 70px;
+            background: #0f172a;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 45px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.06);
+        }
+
+        .icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .status {
+            margin-top: 18px;
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+
+            background: #dcfce7;
+            color: #166534;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .flow {
+            margin-top: 25px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 28px rgba(0,0,0,0.06);
+        }
+
+        .flow h2 {
+            margin-bottom: 22px;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            padding: 15px 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 9px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #1e3a8a;
+        }
+
+        .arrow {
+            color: #2563eb;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .note {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 11px;
+
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+
+            color: #475569;
+            line-height: 1.6;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        🔐 SecureChat
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('send_message') }}">
+            Send
+        </a>
+
+        <a href="{{ url_for('inbox') }}">
+            Inbox
+        </a>
+
+        <a href="{{ url_for('sent_messages') }}">
+            Sent
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<div class="container">
+
+
+    <div class="heading">
+
+        <h1>
+            🛡️ Security Verification
+        </h1>
+
+        <p>
+            Cryptographic techniques used by SecureChat
+        </p>
+
+    </div>
+
+
+    <div class="security-grid">
+
+
+        <div class="card">
+
+            <div class="icon">
+                🔒
+            </div>
+
+            <h2>
+                AES-256-GCM
+            </h2>
+
+            <p>
+                The original message is encrypted using
+                AES-256-GCM before it is stored or
+                transmitted.
+            </p>
+
+            <span class="status">
+                ✓ ACTIVE
+            </span>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🔑
+            </div>
+
+            <h2>
+                RSA-2048
+            </h2>
+
+            <p>
+                RSA-2048 is used to protect the AES
+                session key so that the encryption key
+                itself is not stored as plain data.
+            </p>
+
+            <span class="status">
+                ✓ ACTIVE
+            </span>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🛡️
+            </div>
+
+            <h2>
+                HMAC-SHA256
+            </h2>
+
+            <p>
+                HMAC-SHA256 is used to verify that the
+                encrypted message has not been modified
+                during storage or communication.
+            </p>
+
+            <span class="status">
+                ✓ ACTIVE
+            </span>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="icon">
+                🔐
+            </div>
+
+            <h2>
+                Password Hashing
+            </h2>
+
+            <p>
+                User passwords are hashed before being
+                stored in the database instead of being
+                stored as plain text.
+            </p>
+
+            <span class="status">
+                ✓ ACTIVE
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="flow">
+
+        <h2>
+            Secure Message Processing
+        </h2>
+
+        <div class="steps">
+
+            <div class="step">
+                👤 Plaintext
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="step">
+                🔒 AES-256-GCM
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="step">
+                🔑 RSA-2048
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="step">
+                🗄️ Encrypted Storage
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="step">
+                🛡️ HMAC Verification
+            </div>
+
+            <div class="arrow">
+                →
+            </div>
+
+            <div class="step">
+                👤 Decrypted Message
+            </div>
+
+        </div>
+
+
+        <div class="note">
+
+            <strong>Important:</strong>
+
+            The plaintext message is not stored in the
+            messages table. The database stores the
+            encrypted ciphertext, nonce, RSA-protected
+            AES key, and HMAC value. The receiver gets
+            the original message only after the stored
+            data is successfully processed and verified.
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

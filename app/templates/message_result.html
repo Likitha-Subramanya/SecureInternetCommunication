@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureChat - Message Secured</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+
+            background: #0f172a;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 45px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+        }
+
+        .container {
+            max-width: 900px;
+
+            margin: 45px auto;
+
+            padding: 0 20px;
+        }
+
+        .success-card {
+            background: white;
+
+            border-radius: 17px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .success-header {
+            text-align: center;
+
+            padding-bottom: 25px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            margin-bottom: 28px;
+        }
+
+        .success-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 15px;
+
+            background: #dcfce7;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 35px;
+        }
+
+        .success-header h1 {
+            color: #166534;
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .success-header p {
+            color: #64748b;
+        }
+
+        .details {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+        .detail-box {
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            padding: 17px;
+
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+
+            color: #64748b;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            font-size: 15px;
+
+            font-weight: bold;
+
+            color: #0f172a;
+        }
+
+        .section {
+            margin-top: 25px;
+        }
+
+        .section-title {
+            font-size: 15px;
+
+            font-weight: bold;
+
+            color: #0f172a;
+
+            margin-bottom: 10px;
+        }
+
+        .ciphertext {
+            background: #0f172a;
+
+            color: #93c5fd;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            font-family: "Courier New", monospace;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            word-break: break-all;
+
+            max-height: 160px;
+
+            overflow-y: auto;
+        }
+
+        .security-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+        }
+
+        .security-item {
+            padding: 15px;
+
+            border-radius: 10px;
+
+            border: 1px solid #dbeafe;
+
+            background: #eff6ff;
+        }
+
+        .security-item strong {
+            display: block;
+
+            color: #1e3a8a;
+
+            margin-bottom: 5px;
+        }
+
+        .security-item span {
+            font-size: 12px;
+
+            color: #1e40af;
+        }
+
+        .integrity {
+            margin-top: 25px;
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            background: #dcfce7;
+
+            border: 1px solid #bbf7d0;
+
+            color: #166534;
+
+            text-align: center;
+
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 30px;
+        }
+
+        .button {
+            flex: 1;
+
+            padding: 13px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+        }
+
+        .primary {
+            background: #2563eb;
+
+            color: white;
+        }
+
+        .primary:hover {
+            background: #1d4ed8;
+        }
+
+        .secondary {
+            background: #e2e8f0;
+
+            color: #334155;
+        }
+
+        .secondary:hover {
+            background: #cbd5e1;
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .details,
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🔐 SecureChat
+    </div>
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('send_message') }}">
+            Send
+        </a>
+
+        <a href="{{ url_for('inbox') }}">
+            Inbox
+        </a>
+
+        <a href="{{ url_for('sent_messages') }}">
+            Sent
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="success-card">
+
+
+        <!-- SUCCESS -->
+
+        <div class="success-header">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h1>
+                Message Secured Successfully
+            </h1>
+
+            <p>
+                Your message was encrypted and securely
+                stored for the receiver.
+            </p>
+
+        </div>
+
+
+
+        <!-- SENDER / RECEIVER -->
+
+        <div class="details">
+
+
+            <div class="detail-box">
+
+                <div class="detail-label">
+                    Sender
+                </div>
+
+                <div class="detail-value">
+                    👤 {{ sender }}
+                </div>
+
+            </div>
+
+
+            <div class="detail-box">
+
+                <div class="detail-label">
+                    Receiver
+                </div>
+
+                <div class="detail-value">
+                    👤 {{ receiver }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ENCRYPTED MESSAGE -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                🔒 Encrypted Ciphertext
+
+            </div>
+
+            <div class="ciphertext">
+
+                {{ encrypted_message }}
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SECURITY OPERATIONS -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                🛡️ Cryptographic Protection
+
+            </div>
+
+
+            <div class="security-grid">
+
+
+                <div class="security-item">
+
+                    <strong>
+                        AES-256-GCM
+                    </strong>
+
+                    <span>
+                        Message encryption
+                    </span>
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <strong>
+                        RSA-2048
+                    </strong>
+
+                    <span>
+                        AES key protection
+                    </span>
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <strong>
+                        HMAC-SHA256
+                    </strong>
+
+                    <span>
+                        Integrity verification
+                    </span>
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <strong>
+                        Secure Storage
+                    </strong>
+
+                    <span>
+                        Encrypted data stored in MySQL
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- INTEGRITY -->
+
+        {% if integrity_verified %}
+
+        <div class="integrity">
+
+            ✓ HMAC-SHA256 Integrity Verification Passed
+
+        </div>
+
+        {% else %}
+
+        <div
+            class="integrity"
+            style="background:#fee2e2;color:#991b1b;border-color:#fecaca;"
+        >
+
+            ✕ Integrity Verification Failed
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- BUTTONS -->
+
+        <div class="buttons">
+
+            <a
+                href="{{ url_for('send_message') }}"
+                class="button primary"
+            >
+                🔒 Send Another Message
+            </a>
+
+            <a
+                href="{{ url_for('sent_messages') }}"
+                class="button secondary"
+            >
+                📤 View Sent Messages
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

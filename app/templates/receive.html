@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SecureChat - Inbox</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            height: 70px;
+
+            background: #0f172a;
+
+            color: white;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 45px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .logout {
+            background: #dc2626;
+            padding: 9px 16px;
+            border-radius: 7px;
+        }
+
+        .container {
+            max-width: 950px;
+
+            margin: 45px auto;
+
+            padding: 0 20px;
+        }
+
+        .heading {
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            font-size: 30px;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: #64748b;
+        }
+
+        .message-card {
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 28px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 8px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        .message-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            margin-bottom: 20px;
+        }
+
+        .sender {
+            font-size: 17px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .time {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .message-label {
+            font-size: 12px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            color: #64748b;
+
+            margin-bottom: 8px;
+        }
+
+        .message {
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 10px;
+
+            padding: 20px;
+
+            line-height: 1.6;
+
+            font-size: 15px;
+
+            color: #1e293b;
+
+            margin-bottom: 20px;
+
+            word-wrap: break-word;
+        }
+
+        .security-title {
+            font-size: 13px;
+
+            font-weight: bold;
+
+            color: #475569;
+
+            margin-bottom: 10px;
+        }
+
+        .security {
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .verified {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .encrypted {
+            background: #dbeafe;
+
+            color: #1e40af;
+        }
+
+        .failed {
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+        .empty {
+            background: white;
+
+            padding: 65px 30px;
+
+            text-align: center;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 8px 28px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+
+            margin-bottom: 18px;
+        }
+
+        .empty h2 {
+            color: #0f172a;
+
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+        .security-info {
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            border-radius: 11px;
+
+            color: #1e40af;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 10px;
+            }
+
+            .message-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav class="navbar">
+
+
+    <div class="logo">
+        🔐 SecureChat
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('dashboard') }}">
+            Dashboard
+        </a>
+
+        <a href="{{ url_for('send_message') }}">
+            Send
+        </a>
+
+        <a href="{{ url_for('sent_messages') }}">
+            Sent
+        </a>
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="logout"
+        >
+            Logout
+        </a>
+
+    </div>
+
+
+</nav>
+
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+
+    <div class="heading">
+
+        <h1>
+            📥 Inbox
+        </h1>
+
+        <p>
+            Secure messages received by {{ username }}
+        </p>
+
+    </div>
+
+
+
+    {% if messages %}
+
+
+        {% for msg in messages %}
+
+
+        <div class="message-card">
+
+
+            <div class="message-header">
+
+
+                <div class="sender">
+
+                    👤 From:
+                    {{ msg.sender }}
+
+                </div>
+
+
+                <div class="time">
+
+                    {{ msg.created_at }}
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="message-label">
+                Decrypted Message
+            </div>
+
+
+            <div class="message">
+
+                {{ msg.message }}
+
+            </div>
+
+
+
+            <div class="security-title">
+
+                Security Verification
+
+            </div>
+
+
+            <div class="security">
+
+
+                {% if msg.integrity_verified %}
+
+
+                    <span class="badge verified">
+
+                        ✓ Integrity Verified
+
+                    </span>
+
+
+                    <span class="badge encrypted">
+
+                        🔐 Successfully Decrypted
+
+                    </span>
+
+
+                {% else %}
+
+
+                    <span class="badge failed">
+
+                        ✕ Integrity Verification Failed
+
+                    </span>
+
+
+                {% endif %}
+
+
+                <span class="badge encrypted">
+
+                    AES-256-GCM
+
+                </span>
+
+
+                <span class="badge encrypted">
+
+                    RSA-2048
+
+                </span>
+
+
+                <span class="badge encrypted">
+
+                    HMAC-SHA256
+
+                </span>
+
+
+            </div>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <div class="empty">
+
+
+            <div class="empty-icon">
+                📭
+            </div>
+
+
+            <h2>
+                No Messages Yet
+            </h2>
+
+
+            <p>
+                Messages sent to you will appear here.
+            </p>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+
+    <div class="security-info">
+
+        🛡️ <strong>Secure Processing:</strong>
+
+        Received messages are recovered using the
+        RSA-protected AES key, verified using
+        HMAC-SHA256, and decrypted using AES-256-GCM.
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
